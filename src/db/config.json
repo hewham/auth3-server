@@ -12,7 +12,7 @@
     "username": "YOUR_MYSQL_USERNAME",
     "password": "YOUR_MYSQL_PASSWORD",
     "database": "auth3db",
-    "host": "127.0.0.1",
+    "host": "YOUR_MYSQL_HOST",
     "dialect": "mysql",
     "port": 3306,
     "operatorsAliases": 1

@@ -18,19 +18,9 @@ function getMethodColor(method) {
   }
 }
 
-function getSourceColor(request_source) {
-  if (request_source == "admin_dashboard") {
-    return "yellow";
-  } else if (request_source == "web_app") {
-    return "cyan";
-  } else if (request_source == "browser_extension") {
-    return "green";
-  } else if (request_source == "ios_app") {
+function getSourceColor(rec_src) {
+  if (rec_src == "demo") {
     return "magenta";
-  } else if (request_source == "android_app") {
-    return "magenta";
-  } else if (request_source != "unknown") {
-    return "blue"; // API Webhooks
   } else {
     return "gray"; // unknown
   }
@@ -47,22 +37,20 @@ module.exports = async (req, res, next) => {
   } else {
     // Log formatter
     let showURL = req.url;
-    const { request_source, req_src, req_site, req_version } = req.query;
+    const { req_src, req_site, req_version } = req.query;
     let reqSrc = "unknown";
     let reqSite = null;
     let appVersion = null;
-    let reqUserID = null
+    let reqUserID = null;
     const serverVersion = server_version;
 
-    // if theres a request_source OR rec_src param, format it
-    request_source ? reqSrc = request_source : null;
+    // if theres a rec_src OR rec_src param, format it
     req_src ? reqSrc = req_src : null;
     req_site ? reqSite = req_site : null;
     req_version ? appVersion = req_version : null;
     req.userID ? reqUserID = req.userID : null;
 
-    // remove request_source info from displayed url
-    showURL.includes("request_source") ? showURL = showURL.substr(0, showURL.indexOf("request_source") - 1) : null;
+    // remove rec_src info from displayed url
     showURL.includes("req_src") ? showURL = showURL.substr(0, showURL.indexOf("req_src") - 1) : null;
 
     // assign colors based on request
