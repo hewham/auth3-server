@@ -1,6 +1,16 @@
 const winston = require("winston");
+require('winston-syslog');
 const figures = require("figures");
 const colors = require("colors");
+
+const enable_papertrail = (process.env.PT_ENABLED == "true");
+const papertrail_options = {
+  host: process.env.PT_HOST,
+  port: process.env.PT_PORT,
+  app_name: process.env.PT_APPNAME,
+  localhost: process.env.PT_HOSTNAME,
+  colorize: true
+};
 
 const { combine, timestamp, printf } = winston.format;
 
@@ -16,6 +26,10 @@ const log = winston.createLogger({
     new winston.transports.Console()
   ]
 });
+
+if (enable_papertrail) {
+  log.add(new winston.transports.Syslog(papertrail_options));
+}
 
 function loglevel(level) {
   level = level.toUpperCase();
