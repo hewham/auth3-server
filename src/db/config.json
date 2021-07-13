@@ -9,8 +9,8 @@
     "operatorsAliases": 1
   },
   "production": { 
-    "username": "root",
-    "password": "AaKaCa123",
+    "username": "YOUR_MYSQL_USERNAME",
+    "password": "YOUR_MYSQL_PASSWORD",
     "database": "auth3db",
     "host": "127.0.0.1",
     "dialect": "mysql",
