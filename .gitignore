@@ -1,0 +1,14 @@
+node_modules/
+Mobile-Express/node_modules/
+keys/*
+package-lock.json
+Mobile-Express/package-lock.jsonsendgrid.env
+.vscode/
+.idea/
+lib/
+*.iml
+
+/node_modules
+npm-debug.log
+.DS_Store
+/*.env

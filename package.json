@@ -1,0 +1,58 @@
+{
+    "name": "auth3-server",
+    "version": "0.6.0",
+    "scripts": {
+        "start": "nodemon src/server.js",
+        "help": "node ./src/scripts/print_help.js",
+        "build": "babel src/ -d lib/",
+        "set_version": "node ./src/scripts/set_version.js",
+        "test": "./node_modules/cowsay/cli.js -f psychiatrichelp2 Testing The Server! && mocha \"src/spec/v2Tests/*.spec.js\" \"--recursive\"",
+        "lint": "./node_modules/.bin/eslint .",
+        "lint:fix": "./node_modules/.bin/eslint . --fix",
+        "sql:drop": "npx sequelize-cli db:drop",
+        "sql:create": "npx sequelize-cli db:create",
+        "sql:migrate": "npx sequelize-cli db:migrate",
+        "sql:migrate:undo": "npx sequelize-cli db:migrate:undo",
+        "sql:seed": "npx sequelize-cli db:seed:all",
+        "sql:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+        "sql:create:prod": "npx sequelize-cli db:create --env=production",
+        "sql:migrate:prod": "npx sequelize-cli db:migrate --env=production",
+        "sql:migrate:undo:prod": "npx sequelize-cli db:migrate:undo --env=production",
+        "sql:seed:prod": "npx sequelize-cli db:migrate --env=production",
+        "sql:reset:prod": "npx sequelize-cli db:drop --env=production && npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production && npx sequelize-cli db:seed:all --env=production"
+    },
+    "private": true,
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "colors": "^1.4.0",
+        "cors": "^2.8.5",
+        "dotenv": "^6.2.0",
+        "ethereumjs-util": "^7.0.10",
+        "express": "^4.17.1",
+        "figures": "^3.0.0",
+        "increase-version": "^1.0.4",
+        "jsonwebtoken": "^8.5.1",
+        "mysql2": "^2.2.5",
+        "sequelize": "^5.21.3",
+        "uuid": "^3.3.3",
+        "winston": "^3.2.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.7.7",
+        "@babel/core": "^7.7.7",
+        "@babel/preset-flow": "^7.7.4",
+        "@types/node": "^8.9.5",
+        "cowsay": "^1.4.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-plugin-import": "^2.19.1",
+        "mocha": "^6.1.4",
+        "nodemon": "^1.18.11",
+        "ts-node": "~7.0.0",
+        "typescript": "~3.2.2"
+    },
+    "eslintConfig": {
+        "configFile": "./.eslintrc"
+    }
+}

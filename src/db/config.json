@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "root",
+    "password": "AaKaCa123",
+    "database": "auth3db",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3306,
+    "operatorsAliases": 1
+  },
+  "production": { 
+    "username": "root",
+    "password": "AaKaCa123",
+    "database": "auth3db",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3306,
+    "operatorsAliases": 1
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "brace-style": ["error", "1tbs"],
+    "comma-dangle": ["error", "never"],
+    "object-curly-newline": "off",
+    "quotes": "off",
+    "quote-props": "off", // Error when quotes used in object declaration
+    "strict": "off", // something with 'use sctrict'
+    "lines-around-directive": "off",
+    "global-require": "off",
+    "no-unused-vars": "off", // This got too annoying, might fix later
+    "no-var": "off",
+    "one-var": "off",
+    "no-plusplus": "off", // ++ throws error
+    "no-undef": "off",
+    "eqeqeq": "off", // use === instead of ==
+    "no-console": "off", // console logs throws error
+    "import/newline-after-import": "off", // error when require import isn't followed by a newline
+    "import/order": "off", // Error when imports are out of order, ie import used by other import imported after
+    "no-unused-expressions": "off",
+    "prefer-template": "off", // prefers ${} instead of string concatenation
+    "prefer-arrow-callback": "error", // prefers arrow () => {} instead of function(){} for callbacks
+    "max-len": "off", // maximum line length
+    "no-lonely-if": "off",
+    "prefer-const": "warn", // prefer const when variable doesn't change
+    "no-restricted-globals": "off", // This was messing with isNaN() function
+    "no-shadow": "off", // error is the same variable is declared in a block in a block
+    "camelcase": "off",
+    "no-await-in-loop": "off",
+    "prefer-promise-reject-errors": "off", // error throw when promise reject isn't Error type
+    "no-async-promise-executor": "off", // error when Promise callback is async
+    "no-restricted-syntax": "off", // hmm 🤔
+    "no-param-reassign": "off",
+    "no-use-before-define": "off", // Error when variable or function is used before it's declared
+    "guard-for-in": "off", // idk
+    "vars-on-top": "off", // error thrown when var declaration aren't at top of scope block
+    "consistent-return": "off", // idk
+    "array-callback-return": "off", // Error when map arrow callback doesn't have a return
+    "prefer-destructuring": "off", // dumb
+    "no-return-await": "off", // Error when return await blahblahblah
+    "radix": ["warn", "as-needed"], // parseInt second input to determine the base
+    "class-methods-use-this": "off",
+    "new-cap": "warn", // classes and constructors start with capital letter (titlecase)
+    "func-names": "warn", // unnamed function names
+    "no-loop-func": "off", // idk
+    "implicit-arrow-linebreak": "off", // newline rules for arrow functions
+    "lines-between-class-members": ["error", "always"],
+    "no-else-return": "off", // else if not allowed if return is in if
+    "no-continue": "off", // continue not allowed
+    "dot-notation": "off"
+  }
+}

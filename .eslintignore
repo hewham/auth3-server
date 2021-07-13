@@ -1,0 +1,6 @@
+node_modules/
+.vscode/
+
+src/db/migrations/*
+src/db/seeders/*
+src/db/models/automodels/*
