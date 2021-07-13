@@ -117,7 +117,7 @@ class NonceService {
     // Step 4: Create JWT
     // //////////////////////////////////////////////////
     // set issuer
-    const issuer = "hiddenlogin";
+    const issuer = "auth3.org";
 
     return new Promise(async (resolve, reject) =>
       // https://github.com/auth0/node-jsonwebtoken
