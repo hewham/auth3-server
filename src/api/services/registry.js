@@ -1,14 +1,14 @@
 const DBRepository = require("../repository/dbRepository");
 const DBService = require("../services/dbService");
-const NonceService = require("../services/nonceService");
+const AuthService = require("./authService");
 
 class ServiceRegistry {
   constructor(
     dbService,
-    nonceService
+    authService
   ) {
     this.dbService = dbService;
-    this.nonceService = nonceService;
+    this.authService = authService;
   }
 }
 
@@ -18,11 +18,11 @@ const initialize = (models) => {
   if (!serviceRegistry) {
     const dbRepositoryInstance = new DBRepository(models);
     const dbServiceInstance = new DBService(dbRepositoryInstance);
-    const nonceServiceInstance = new NonceService(dbRepositoryInstance);
+    const authServiceInstance = new AuthService(dbServiceInstance);
 
     const newServiceRegistry = new ServiceRegistry(
       dbServiceInstance,
-      nonceServiceInstance
+      authServiceInstance
     );
 
     Object.freeze(newServiceRegistry);

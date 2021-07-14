@@ -3,14 +3,22 @@ const uuidv4 = require('uuid/v4');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    username: {
-      type: DataTypes.STRING,
-      unique: true
-    },
     address: {
       allowNull: false,
       type: DataTypes.STRING,
       unique: true
+    },
+    nonce: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    msg: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    expiresAt: {
+      allowNull: true,
+      type: DataTypes.DATE
     }
   }, {
     freezeTableName: true,

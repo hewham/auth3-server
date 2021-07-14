@@ -13,9 +13,17 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      username: {
+      nonce: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      msg: {
         type: Sequelize.STRING,
-        unique: true
+        allowNull: true
+      },
+      expiresAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

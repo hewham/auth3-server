@@ -9,10 +9,10 @@
     "operatorsAliases": 1
   },
   "production": { 
-    "username": "YOUR_MYSQL_USERNAME",
-    "password": "YOUR_MYSQL_PASSWORD",
+    "username": "admin",
+    "password": "nicepantsmyguy!",
     "database": "auth3db",
-    "host": "YOUR_MYSQL_HOST",
+    "host": "anonacydb.cp89mhmhlvsj.us-east-2.rds.amazonaws.com",
     "dialect": "mysql",
     "port": 3306,
     "operatorsAliases": 1

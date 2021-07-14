@@ -10,11 +10,10 @@ module.exports = {
     return queryInterface.bulkInsert('metadata', [
       {
         id:'1',
-        isMetadataHere: "Yup",
-        adminVersion: "0.0.1",
-        expressVersion: "0.0.1",
-        webappVersion: "0.0.1",
-        mobileVersion: "0.0.1",
+        version: 'v1',
+        defaultMsgPrefix: 'Sign this one-time message to authenticate: ',
+        defaultMsgSuffix: '',
+        secret: 'shhhh'
       }
     ], {});
   },

@@ -1,6 +1,6 @@
 {
     "name": "auth3-server",
-    "version": "0.6.0",
+    "version": "0.1.1",
     "scripts": {
         "start": "nodemon src/server.js",
         "help": "node ./src/scripts/print_help.js",
@@ -19,7 +19,7 @@
         "sql:migrate:prod": "npx sequelize-cli db:migrate --env=production",
         "sql:migrate:undo:prod": "npx sequelize-cli db:migrate:undo --env=production",
         "sql:seed:prod": "npx sequelize-cli db:migrate --env=production",
-        "sql:reset:prod": "npx sequelize-cli db:drop --env=production && npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production"
+        "sql:reset:prod": "npx sequelize-cli db:drop --env=production && npx sequelize-cli db:create --env=production && npx sequelize-cli db:migrate --env=production && npx sequelize-cli db:seed:all --env=production"
     },
     "private": true,
     "dependencies": {

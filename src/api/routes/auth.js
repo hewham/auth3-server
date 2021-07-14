@@ -8,20 +8,21 @@ router
   .post("/nonce",
     async (req, res, next) => {
       const { address } = req.body;
-      let nonce = await registry().nonceService.getNonce(address);
+      let userRef = await registry().authService.findUserByAddress(address);
 
-      if (nonce) {
-        // generate new nonce and save to row
-        nonce = await registry().nonceService.newNonceAndUpdate(address);
-      } else {
-        // generate new nonce & generate new row in table
-        nonce = await registry().nonceService.newNonceAndCreate(address);
+      if (!userRef) {
+        // generate new nonce & create new user row in table
+        userRef = await registry().authService.generateNonceAndCreateUser(address);
+      } else if (!userRef.msg || !userRef.nonce) {
+        // generate new nonce & update new user row in table if something is missing
+        userRef = await registry().authService.generateNonceAndUpdateUser(address);
       }
+      // TODO: Add expires at detection
 
       return res.status(200).json({
         status: 200,
-        data: await registry().nonceService.cleanNonce(nonce),
-        message: "Successfully updated new nonce for address"
+        data: await registry().authService.cleanNonce(userRef),
+        message: "Successfully got nonce for address"
       });
     })
 
@@ -30,20 +31,21 @@ router
       const { address, signature } = req.body;
 
       try {
-        const signatureCreatorAddress = await registry().nonceService.verifySignature(address, signature);
-        let user = JSON.parse(JSON.stringify(await registry().nonceService.userByAddress(signatureCreatorAddress)));
+        const signatureCreatorAddress = await registry().authService.verifySignature(address, signature);
+        const user = await registry().authService.findUserByAddress(signatureCreatorAddress);
 
-        if (!user) {
-          user = JSON.parse(JSON.stringify(await registry().nonceService.createUser(signatureCreatorAddress)));
+        const token = await registry().authService.genJWT(user.id, address);
+
+        if (token) {
+          await registry().authService.generateNonceAndUpdateUser(address);
+          return res.status(200).json({
+            status: 200,
+            data: token,
+            message: "Successfully verified user"
+          });
+        } else {
+          return res.status(400).json({ status: 400, message: "Unable to authenticate and create token" });
         }
-
-        const token = await registry().nonceService.genJWT(user.id, address);
-
-        return res.status(200).json({
-          status: 200,
-          data: token,
-          message: "Successfully verified user"
-        });
       } catch (e) {
         log.error(e.message);
         return res.status(400).json({ status: 400, message: e.message });

@@ -3,12 +3,12 @@
 const ethUtil = require('ethereumjs-util');
 const jwt = require('jsonwebtoken');
 
-const SECRET = 'shhhh';
-const PREFIX = 'Sign this one-time nonce to authenticate: ';
+// const SECRET = 'shhhh';
+// const PREFIX = 'Sign this one-time nonce to authenticate: ';
 
-class NonceService {
-  constructor(dbRepository) {
-    this.dbRepository = dbRepository;
+class AuthService {
+  constructor(dbService) {
+    this.dbService = dbService;
   }
 
   async genNonce() {
@@ -17,58 +17,59 @@ class NonceService {
 
   cleanNonce(nonce) {
     return {
-      id: nonce.id,
+      // id: nonce.id,
       nonce: nonce.nonce,
-      prefix: nonce.prefix,
+      msg: nonce.msg,
       expiresAt: nonce.expiresAt
     };
   }
 
-  async getNonce(address) {
-    const nonceRef = await this.dbRepository.findByWhere("Nonce", { address }, { raw: true });
-    if (nonceRef[0]) {
-      return nonceRef[0];
+  async findUserByAddress(address) {
+    const userRef = await this.dbService.findByWhere("User", { address }, { raw: true });
+    if (userRef[0]) {
+      return userRef[0];
     } else {
       // throw new Error("No row found for this address")
       return null;
     }
   }
 
-  async newNonceAndUpdate(address) {
+  async generateNonceAndUpdateUser(address) {
     const nonce = await this.genNonce();
+    const prefix = await this.dbService.getMetadataItem('defaultMsgPrefix');
     const expiresAt = new Date(Date.now() + (5 * 60 * 1000));
-    const nonceRef = await this.dbRepository.findByWhere("Nonce", { address }, { raw: true });
-    if (nonceRef[0]) {
-      await this.dbRepository.update("Nonce", nonceRef[0].id, {
+    const userRef = await this.dbService.findByWhere("User", { address }, { raw: true });
+    if (userRef[0]) {
+      await this.dbService.update("User", userRef[0].id, {
         nonce,
-        prefix: PREFIX,
+        msg: prefix + nonce,
         expiresAt
       });
-      const newNonce = await this.dbRepository.findByWhere("Nonce", { address }, { raw: true });
+      const newNonce = await this.dbService.findByWhere("User", { address }, { raw: true });
       return JSON.parse(JSON.stringify(newNonce[0]));
     } else {
-      throw new Error("No row found for this address");
+      throw new Error("No nonce found for this address");
     }
   }
 
-  async newNonceAndCreate(address) {
+  async generateNonceAndCreateUser(address) {
     const nonce = await this.genNonce();
+    const prefix = await this.dbService.getMetadataItem('defaultMsgPrefix');
     const expiresAt = new Date(Date.now() + (5 * 60 * 1000));
-    await this.dbRepository.create("Nonce", {
+    await this.dbService.create("User", {
       address,
       nonce,
-      prefix: PREFIX,
+      msg: prefix + nonce,
       expiresAt
     });
-    const newNonce = await this.dbRepository.findByWhere("Nonce", { address }, { raw: true });
+    const newNonce = await this.dbService.findByWhere("User", { address }, { raw: true });
     return JSON.parse(JSON.stringify(newNonce[0]));
   }
 
   async verifySignature(address, signature) {
-    const foundNonce = await this.dbRepository.findByWhere("Nonce", { address }, { raw: true });
+    const foundNonce = await this.dbService.findByWhere("User", { address }, { raw: true });
     if (foundNonce[0]) {
-      const msg = foundNonce[0].prefix + foundNonce[0].nonce;
-
+      const msg = foundNonce[0].msg;
       // in possession of msg, publicAddress and signature.
       // perform an elliptic curve signature verification with ecrecover
 
@@ -93,23 +94,9 @@ class NonceService {
       } else {
         throw new Error("Signature verification failed");
       }
-    }
-  }
-
-  async userByAddress(address) {
-    const results = await this.dbRepository.findByWhere("User", { address });
-    if (results[0]) {
-      return results[0];
     } else {
-      return null;
+      throw new Error("No nonce found for this address");
     }
-  }
-
-  async createUser(address) {
-    // const username = `u${await this.genNonce()}`;
-    const userDetails = { address };
-    const user = await this.dbRepository.create('User', userDetails);
-    return user;
   }
 
   async genJWT(uid, address) {
@@ -118,13 +105,14 @@ class NonceService {
     // //////////////////////////////////////////////////
     // set issuer
     const issuer = "auth3.org";
+    const secret = await this.dbService.getMetadataItem('secret');
 
     return new Promise(async (resolve, reject) =>
       // https://github.com/auth0/node-jsonwebtoken
       jwt.sign({
         uid
       },
-      SECRET,
+      secret,
       {
         issuer,
         subject: address,
@@ -140,4 +128,4 @@ class NonceService {
 }
 
 
-module.exports = NonceService;
+module.exports = AuthService;

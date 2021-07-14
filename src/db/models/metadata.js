@@ -3,11 +3,10 @@ const uuidv4 = require('uuid/v4');
 
 module.exports = (sequelize, DataTypes) => {
   const Metadata = sequelize.define('Metadata', {
-    isMetadataHere: DataTypes.STRING,
-    adminVersion: DataTypes.STRING,
-    expressVersion: DataTypes.STRING,
-    webappVersion: DataTypes.STRING,
-    mobileVersion: DataTypes.STRING
+    version: DataTypes.STRING,
+    defaultMsgPrefix: DataTypes.STRING,
+    defaultMsgSuffix: DataTypes.STRING,
+    secret: DataTypes.STRING
   }, {
     freezeTableName: true,
     timestamps: true,

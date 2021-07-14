@@ -8,11 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      isMetadataHere: Sequelize.STRING,
-      adminVersion: Sequelize.STRING,
-      expressVersion: Sequelize.STRING,
-      webappVersion: Sequelize.STRING,
-      mobileVersion: Sequelize.STRING,
+      version: Sequelize.STRING,
+      defaultMsgPrefix: Sequelize.STRING,
+      defaultMsgSuffix: Sequelize.STRING,
+      secret: Sequelize.STRING,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

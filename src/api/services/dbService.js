@@ -31,6 +31,12 @@ class dbService {
     return await this.dbRepository.delete(type, id);
   }
 
+  async getMetadataItem(field) {
+    const res = await this.dbRepository.findAll('Metadata');
+    const metadata = res[0];
+    return metadata[field];
+  }
+
   async incrementMetadata(field) {
     // field is totalEmailForwards, totalSMSIncoming, totalSMSIncoming
     if (
