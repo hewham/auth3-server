@@ -2,7 +2,7 @@
     "name": "auth3-server",
     "version": "0.1.1",
     "scripts": {
-        "start": "nodemon src/server.js",
+        "start": "npx nodemon src/server.js",
         "help": "node ./src/scripts/print_help.js",
         "build": "babel src/ -d lib/",
         "set_version": "node ./src/scripts/set_version.js",
